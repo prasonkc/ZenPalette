@@ -22,8 +22,8 @@ function NavBar() {
           <ToggleButton isDark={isDark} setIsDark={setIsDark}/>
         </div>
         {/* About Me Section */}
-        <div className="aboutMe justify-self-center cursor-pointer p-5 justify-self-end">
-          <div className="border-3 rounded-full border-dotted h-10 w-10 flex justify-center items-center">i</div>
+        <div className="aboutMe cursor-pointer p-5 justify-self-end">
+          <div className="border-3 rounded-full border-dotted h-10 w-10 flex justify-center items-center opacity-75 hover:opacity-100">i</div>
         </div>
       </div>
     </>
