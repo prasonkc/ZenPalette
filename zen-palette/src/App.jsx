@@ -32,13 +32,6 @@ function NavBar() {
           </div>
         </div>
       </div>
-
-      {/* Routes */}
-      <Routes>
-        <Route path="/color-generator" element={<ColorGenerator />} />
-        <Route path="/image-picker" element={<ImagePicker />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
     </>
   );
 }
@@ -78,10 +71,13 @@ function App() {
     <>
       <BrowserRouter>
         <NavBar />
-        <div className="palleteContainer">
-          {/* Use react router here */}
-          {/* Generate 5 cards for picking colour */}
-        </div>
+
+        {/* Routes */}
+        <Routes>
+          <Route path="/color-generator" element={<ColorGenerator />} />
+          <Route path="/image-picker" element={<ImagePicker />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
       </BrowserRouter>
     </>
   );
