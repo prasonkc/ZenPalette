@@ -1,22 +1,41 @@
 import { useEffect, useState } from "react";
 
 function Card() {
-  const [color, setColor] = useState("#fff");
+  const [color, setColor] = useState("");
+  const [isFinal, setIsFinal] = useState(false)
+  
   useEffect(() => {
+    let interval;
+    if(!isFinal){
+      interval = setInterval(() => {
+        setColor(generateRandomHexColor())
+      }, 50);
+    }
+
     function handleKeyDown(event) {
       if (event.code == "Space") {
-        setColor(generateRandomHexColor());
+        lockColor();
       }
     }
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+    return () => {
+      clearInterval(interval)
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [isFinal]);
+
+  
+  function lockColor() {
+    setColor(generateRandomHexColor());
+    setIsFinal(true); // stop flickering
+  }
+
 
   return (
     <>
       <div
-        className="card w-[20vw] h-[85vh] bg-[#fff] rounded-3xl shadow-2xl cursor-pointer"
+        className="card w-[20vw] h-[85vh] rounded-3xl shadow-2xl cursor-pointer"
         style={{ background: color }}
         onClick={handleClick}
       ></div>
@@ -24,7 +43,7 @@ function Card() {
   );
 
   function handleClick() {
-    setColor(generateRandomHexColor());
+    lockColor()
   }
 }
 
