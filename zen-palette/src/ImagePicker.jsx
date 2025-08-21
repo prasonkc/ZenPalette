@@ -27,18 +27,6 @@ export default function ImagePicker({ isDark }) {
     e.preventDefault();
   }
 
-  function handleImageLoad() {
-    const canvas = canvasref.current;
-    const ctx = canvas.getContext("2d");
-    const img = e.target;
-
-    canvas.width = img.width;
-    canvas.height = img.height;
-    ctx.drawImage(img, 0, 0, img.width, img.height);
-  }
-
-  
-
   return (
     <>
       {!file && (
