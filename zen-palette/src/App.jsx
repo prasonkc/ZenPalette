@@ -10,29 +10,38 @@ import About from "./about";
 
 function NavBar() {
   const [isDark, setIsDark] = useState(false);
+
   return (
-    <>
-      <div className="nav grid grid-cols-[80vw_10vw_10vw] font-bold font-mono text-xl">
-        <div className="flex justify-center justify-self-center">
-          <div className="palleteGen cursor-pointer hover:border-b-2 hover:border-gray-800 hover:text-gray-800 p-5">
-            <Link to="/color-generator">Colour Palette Generator</Link>
-          </div>
-          <div className="imagePick cursor-pointer hover:border-b-2 hover:border-gray-800 hover:text-gray-800  p-5">
-            <Link to="/image-picker">Image Picker</Link>
-          </div>
+    <nav className="w-full shadow-md sticky top-0 z-50 bg-white">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+        {/* Left navigation links */}
+        <div className="flex gap-8 font-bold font-mono text-lg justify-start">
+          <Link
+            to="/color-generator"
+            className="hover:text-red-500 hover:border-b-2 hover:border-red-500 pb-1 transition-colors"
+          >
+            Colour Palette Generator
+          </Link>
+          <Link
+            to="/image-picker"
+            className="hover:text-red-500 hover:border-b-2 hover:border-red-500 pb-1 transition-colors"
+          >
+            Image Picker
+          </Link>
         </div>
-        {/* Section for toggling light mode and dark mode */}
-        <div className="toggleBtn cursor-pointer self-center justify-self-center">
+
+        {/* Right side: toggle + about */}
+        <div className="flex items-center gap-6">
           <ToggleButton isDark={isDark} setIsDark={setIsDark} />
-        </div>
-        {/* About Me Section */}
-        <div className="aboutMe cursor-pointer p-5 justify-self-end">
-          <div className="border-3 rounded-full border-dotted h-10 w-10 flex justify-center items-center opacity-75 hover:opacity-100">
-            <Link to="/about">i</Link>
-          </div>
+
+          <Link to="/about">
+            <div className="border-2 border-dotted rounded-full h-10 w-10 flex justify-center items-center opacity-70 hover:opacity-100 hover:border-red-500 hover:text-red-500 transition">
+              i
+            </div>
+          </Link>
         </div>
       </div>
-    </>
+    </nav>
   );
 }
 
@@ -43,15 +52,15 @@ function ToggleButton({ isDark, setIsDark }) {
         onClick={() => handleClick()}
         className={clsx(
           "w-18 h-10 rounded-full cursor-pointer flex items-center opacity-75 hover:opacity-100",
-          isDark ? "bg-amber-50" : "bg-red-300"
+          isDark ? "bg-indigo-200" : "bg-amber-200"
         )}
       >
         <div
           className={clsx(
-            "w-10 h-10 rounded-full flex items-center justify-center",
+            "w-10 h-10 rounded-full flex items-center justify-center transition-transform ease-in-out duration-300",
             isDark
-              ? "translate-x-full bg-red-300 transition-transform ease-in-out duration-300"
-              : "bg-amber-50 translate-x-0 transition-transform ease-in-out duration-300"
+              ? "translate-x-full bg-amber-200"
+              : "translate-x-0 bg-indigo-200"
           )}
         >
           <img src={isDark ? moonIcon : sunIcon} alt="" className="w-8" />
