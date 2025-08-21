@@ -27,7 +27,7 @@ function NavBar({ isDark, setIsDark }) {
           </Link>
           <Link
             to="/image-picker"
-            className="hover:text-red-500 hover:border-b-2 hover:border-red-500 pb-1 transition-colors"
+            className="hover:text-red-500 hover:border-b-2 hover:border-red-500 pb-1 transition-colors" isDark={isDark}
           >
             Image Picker
           </Link>
