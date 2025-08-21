@@ -37,7 +37,7 @@ function Card() {
       <div
         className="relative card w-[18vw] h-[75vh] rounded-3xl shadow-2xl cursor-pointer flex items-center justify-center 
                    transition-transform duration-300 hover:scale-105 hover:shadow-3xl"
-        style={{ background: color }}
+        style={{ background: color}}
         onClick={handleBoxClick}
       >
         <span
@@ -90,7 +90,7 @@ function generateRandomHexColor() {
 
 export default function ColorGenerator() {
   return (
-    <div className="paletteGenerator w-full h-screen bg-gradient-to-br from-pink-200 via-purple-200 to-indigo-200 
+    <div className="paletteGenerator w-full h-screen 
                      m-auto p-10 flex justify-center items-center gap-8">
       <Card />
       <Card />

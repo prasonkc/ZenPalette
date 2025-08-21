@@ -3,16 +3,19 @@ import "./App.css";
 import clsx from "clsx";
 import sunIcon from "./assets/toggle/sun.svg";
 import moonIcon from "./assets/toggle/moon.svg";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import ColorGenerator from "./ColorGenerator";
 import ImagePicker from "./ImagePicker";
 import About from "./about";
 
-function NavBar() {
-  const [isDark, setIsDark] = useState(false);
-
+function NavBar({ isDark, setIsDark }) {
   return (
-    <nav className="w-full shadow-md sticky top-0 z-50 bg-white">
+    <nav
+      className={clsx(
+        "w-full shadow-md sticky top-0 z-50",
+        isDark ? "bg-[#181818] text-gray-200" : "bg-white text-gray-800"
+      )}
+    >
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
         {/* Left navigation links */}
         <div className="flex gap-8 font-bold font-mono text-lg justify-start">
@@ -76,17 +79,29 @@ function ToggleButton({ isDark, setIsDark }) {
 }
 
 function App() {
+  const [isDark, setIsDark] = useState(false);
   return (
     <>
       <BrowserRouter>
-        <NavBar />
-
-        {/* Routes */}
-        <Routes>
-          <Route path="/color-generator" element={<ColorGenerator />} />
-          <Route path="/image-picker" element={<ImagePicker />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
+        <div
+          className={clsx(
+            "min-h-screen flex flex-col transition-colors duration-300",
+            isDark ? "bg-[#474141] text-gray-200" : "bg-purple-200 text-gray-800"
+          )}
+        >
+          {" "}
+          <NavBar isDark={isDark} setIsDark={setIsDark} />
+          {/* Routes */}
+          <Routes>
+            <Route
+              path="/"
+              element={<Navigate to="/color-generator" replace />}
+            />
+            <Route path="/color-generator" element={<ColorGenerator />} />
+            <Route path="/image-picker" element={<ImagePicker />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </>
   );
