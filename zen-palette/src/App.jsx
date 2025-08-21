@@ -73,8 +73,6 @@ function ToggleButton({ isDark, setIsDark }) {
   );
   function handleClick() {
     setIsDark(!isDark);
-    if (isDark) {
-    }
   }
 }
 
