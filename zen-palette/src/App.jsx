@@ -18,16 +18,16 @@ function NavBar({ isDark, setIsDark }) {
     >
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
         {/* Left navigation links */}
-        <div className="flex gap-8 font-bold font-mono text-lg justify-start">
+        <div className="flex sm:gap-8 gap-3 font-bold font-mono text-lg justify-start">
           <Link
             to="/color-generator"
-            className="hover:text-red-500 hover:border-b-2 hover:border-red-500 pb-1 transition-colors"
+            className="hover:text-red-500 hover:border-b-2 hover:border-red-500 pb-1 transition-colors sm:text-xl text-xs"
           >
             Colour Palette Generator
           </Link>
           <Link
             to="/image-picker"
-            className="hover:text-red-500 hover:border-b-2 hover:border-red-500 pb-1 transition-colors" isDark={isDark}
+            className="hover:text-red-500 hover:border-b-2 hover:border-red-500 pb-1 transition-colors sm:text-xl text-xs" isDark={isDark}
           >
             Image Picker
           </Link>

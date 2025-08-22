@@ -32,12 +32,24 @@ function Card() {
     setIsFinal(true);
   }
 
+  function handleBoxClick() {
+    lockColor();
+  }
+
+  function handleSpanClick(e) {
+    e.stopPropagation();
+    navigator.clipboard.writeText(color.toUpperCase());
+    setPopupPos({ x: e.clientX, y: e.clientY });
+    setCopied(true);
+    setTimeout(() => setCopied(false), 800);
+  }
+
   return (
     <>
       <div
-        className="relative card w-[18vw] h-[75vh] rounded-3xl shadow-2xl cursor-pointer flex items-center justify-center 
-                   transition-transform duration-300 hover:scale-105 hover:shadow-3xl"
-        style={{ background: color}}
+        className="relative w-full h-[30vh] sm:w-[18vw] sm:h-[75vh] rounded-3xl shadow-2xl cursor-pointer flex items-center justify-center
+                   transition-transform duration-300 hover:scale-105 hover:shadow-3xl sm:mt-10"
+        style={{ background: color }}
         onClick={handleBoxClick}
       >
         <span
@@ -65,18 +77,6 @@ function Card() {
       )}
     </>
   );
-
-  function handleBoxClick() {
-    lockColor();
-  }
-
-  function handleSpanClick(e) {
-    e.stopPropagation();
-    navigator.clipboard.writeText(color.toUpperCase());
-    setPopupPos({ x: e.clientX, y: e.clientY });
-    setCopied(true);
-    setTimeout(() => setCopied(false), 800);
-  }
 }
 
 function generateRandomHexColor() {
@@ -90,8 +90,7 @@ function generateRandomHexColor() {
 
 export default function ColorGenerator() {
   return (
-    <div className="paletteGenerator w-full h-screen 
-                     m-auto p-10 flex justify-center items-center gap-8">
+    <div className="paletteGenerator w-full h-full p-6 flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-8">
       <Card />
       <Card />
       <Card />
