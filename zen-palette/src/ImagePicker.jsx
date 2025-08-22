@@ -1,14 +1,12 @@
-import clsx from "clsx";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function ImagePicker({ isDark }) {
   const [file, setFile] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
   const [pickedColor, setPickedColor] = useState(null);
-  const canvasRef = useRef(null);
-  const bufferRef = useRef(null);
-  const drawRef = useRef(null);
   const inputRef = useRef(null);
+  const imgRef = useRef(null);
+  const canvasRef = useRef(null);
+  const [popupPos, setPopupPos] = useState({ x: 0, y: 0 });
 
   function handleDrop(e) {
     e.preventDefault();
@@ -50,18 +48,65 @@ export default function ImagePicker({ isDark }) {
     e.target.value = "";
   }
 
+  function handleImageLoad() {
+    const img = imgRef.current;
+    const canvas = canvasRef.current;
+    if (!img || !canvas) return;
+
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+  }
+
+  function handleImageClick(e) {
+    const img = imgRef.current;
+    const canvas = canvasRef.current;
+    if (!img || !canvas) return;
+
+    const rect = img.getBoundingClientRect();
+    const scaleX = img.naturalWidth / img.width;
+    const scaleY = img.naturalHeight / img.height;
+
+    const x = Math.floor((e.clientX - rect.left) * scaleX);
+    const y = Math.floor((e.clientY - rect.top) * scaleY);
+
+    const ctx = canvas.getContext("2d");
+    const pixel = ctx.getImageData(x, y, 1, 1).data;
+    const colorRGB = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+    const color = convertToHex(colorRGB)
+    setPickedColor(color);
+    setPopupPos({ x: e.clientX, y: e.clientY });
+    navigator.clipboard.writeText(color)
+  }
+
+function convertToHex(rgb) {
+  const result = rgb.match(/\d+/g);
+  if (!result) return "#000000"; 
+  const [r, g, b] = result.map(Number);
+
+  return (
+    "#" +
+    r.toString(16).padStart(2, "0") +
+    g.toString(16).padStart(2, "0") +
+    b.toString(16).padStart(2, "0")
+  ).toUpperCase();
+}
+
+
   return (
     <>
       {!file && (
         <div
           onDrop={handleDrop}
           onDragOver={handleDragOver}
-          onClick={browse}
+          onClick={() => document.getElementById("fileInput").click()}
           className="dropZone flex justify-center items-center w-[50vh] h-[50vh] m-auto rounded-3xl cursor-pointer shadow-2xl shadow-white-700"
         >
           Select or drop an image
           <input
-            ref={inputRef}
+            id="fileInput"
             type="file"
             accept="image/*"
             onChange={onFileInput}
@@ -70,14 +115,32 @@ export default function ImagePicker({ isDark }) {
         </div>
       )}
       {file && (
-        <div className="flex justify-center items-center w-full h-[90vh] m-auto">
+        <>
           <img
+            ref={imgRef}
             src={URL.createObjectURL(file)}
-            alt=""
-            className="object-contain w-full h-full"
-            style={{ aspectRatio: "1 / 1" }}
+            alt="Picked"
+            onLoad={handleImageLoad}
+            onClick={handleImageClick}
+            className="max-w-full max-h-[90vh] object-contain cursor-crosshair rounded-xl shadow-md"
           />
-        </div>
+          <canvas ref={canvasRef} style={{ display: "none" }} />
+          {pickedColor && (
+            <div
+              className="fixed px-2 py-1 rounded text-sm font-bold text-white"
+              style={{
+                left: popupPos.x + 10 + "px",
+                top: popupPos.y + 10 + "px",
+                backgroundColor: pickedColor,
+                pointerEvents: "none",
+                zIndex: 999,
+                transition: "all 0.2s ease",
+              }}
+            >
+              {pickedColor}
+            </div>
+          )}
+        </>
       )}
     </>
   );
